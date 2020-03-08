@@ -1,0 +1,25 @@
+{
+    "server": {
+        "port": { "$env": "SERVER_PORT", "$default": 4000 },
+        "host": { "$env": "SERVER_HOST", "$default": "127.0.0.1" },
+        "router": {
+            "stripTrailingSlash": true
+        }
+    },
+    "logging": {
+        "name": "recurse-db",
+        "level": {
+            "$filter": { "$env": "NODE_ENV" },
+            "production": "info",
+            "test": "error",
+            "$default": "trace"
+        },
+        "prettyPrint": {
+            "$filter": { "$env": "NODE_ENV" },
+            "production": false,
+            "$default": {
+                "translateTime": "d/mmm/yyyy, h:MM:ss TT"
+            }
+        }
+    }
+}
