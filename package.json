@@ -1,0 +1,77 @@
+{
+    "name": "recurse-db",
+    "version": "1.0.0",
+    "description": "A simple database server for RC.",
+    "main": "index.js",
+    "bin": {
+        "recurse-db": "./bin/recurse-db-init"
+    },
+    "scripts": {
+        "test": "lab ./__tests__/*.specs.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com/labsvisual/recurse-db.git"
+    },
+    "author": "Shreyansh Pandey <s@isomr.co>",
+    "license": "ISC",
+    "xo": {
+        "esnext": true,
+        "semicolon": true,
+        "space": 4,
+        "rules": {
+            "space-in-parens": [
+                "error",
+                "always"
+            ],
+            "padded-blocks": [
+                "error",
+                "always"
+            ],
+            "array-bracket-spacing": [
+                "error",
+                "always"
+            ],
+            "object-curly-spacing": [
+                "error",
+                "always"
+            ],
+            "template-curly-spacing": [
+                "error",
+                "always"
+            ],
+            "computed-property-spacing": [
+                "error",
+                "always"
+            ],
+            "func-names": [
+                "error",
+                "always"
+            ],
+            "comma-dangle": [
+                "error",
+                "only-multiline"
+            ]
+        }
+    },
+    "bugs": {
+        "url": "https://github.com/labsvisual/recurse-db/issues"
+    },
+    "homepage": "https://github.com/labsvisual/recurse-db#readme",
+    "devDependencies": {
+        "@hapi/code": "^8.0.1",
+        "@hapi/lab": "^22.0.3",
+        "pino-pretty": "^3.6.1",
+        "xo": "^0.27.2"
+    },
+    "dependencies": {
+        "@hapi/boom": "^9.0.0",
+        "@hapi/hapi": "^19.1.1",
+        "@hapi/joi": "^17.1.0",
+        "confidence": "^4.0.2",
+        "glob": "^7.1.6",
+        "hapi-pino": "^6.5.0",
+        "object-sizeof": "^1.5.3",
+        "pino": "^5.17.0"
+    }
+}
