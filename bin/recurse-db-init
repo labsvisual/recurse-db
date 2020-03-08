@@ -1,0 +1,108 @@
+#! /usr/bin/env node
+
+const { Logger } = require( '../lib' );
+const Server = require( '../src' );
+
+const startServer = async function startServer() {
+
+    try {
+
+        Server.createServerInstance();
+        const server = await Server.init();
+
+        Logger.info( {
+            port: server.info.port,
+            host: server.info.host,
+        }, 'starting the server' );
+
+        await server.start();
+
+        Logger.info( 'server startup successful' );
+
+        return server;
+
+    } catch ( error ) {
+
+        throw error;
+
+    }
+
+};
+
+try {
+
+    ( async () => {
+
+        try {
+
+            let server = await startServer();
+            Logger.debug( 'attaching signal actions' );
+
+            const stopServer = async () => {
+
+                Logger.warn( 'gracefully shutting down the server' );
+
+                try {
+
+                    Logger.debug( 'will wait for 5000 milliseconds before a cold stop' );
+                    await server.stop( { timeout: 5000 } );
+                    Logger.info( 'server stopped successfully' );
+
+                } catch ( error ) {
+
+                    Logger.fatal( { err: error }, 'there was an error while graceful shutdown; hard stop' );
+                    process.exit( 2 );
+
+                }
+
+            };
+
+            const reloadServer = async () => {
+
+                Logger.info( 'reloading server' );
+
+                try {
+
+                    await stopServer();
+
+                } catch ( error ) {
+
+                    Logger.fatal( { err: error }, 'there was an error while stopping the server' );
+                    process.exit( 3 );
+
+                }
+
+                try {
+
+                    server = undefined;
+                    server = await startServer();
+
+                    Logger.info( 'server reload successful' );
+
+                } catch ( error ) {
+
+                    Logger.fatal( { err: error }, 'there was an error while restarting the server' );
+                    process.exit( 4 );
+
+                }
+
+            };
+
+            process.on( 'SIGINT', stopServer );
+            process.on( 'SIGTERM', stopServer );
+            process.on( 'SIGHUP', reloadServer );
+
+        } catch ( error ) {
+
+            throw error;
+
+        }
+
+    } )();
+
+} catch ( error ) {
+
+    Logger.fatal( { error }, 'there was an error while starting the database server' );
+    process.exit( 1 );
+
+}
